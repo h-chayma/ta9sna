@@ -1,0 +1,18 @@
+<nav class="navbar bg-body-tertiary">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="" style="color: white;">
+            <span class="text-warning"><i class="fas fa-sun"></i></span> Ta9sna
+        </a>
+        <form class="d-flex" role="search" (ngSubmit)="onSubmit()">
+            <input class="form-control me-2" type="search" [(ngModel)]="city" (ngModelChange)="onSearchChange()"
+                placeholder="Enter the city" aria-label="Search" name="city">
+            <ul *ngIf="showSuggestions && suggestions.length > 0" class="list-group position-absolute">
+                <li class="list-group-item" *ngFor="let suggestion of suggestions"
+                    (click)="selectCity(suggestion.name)">
+                    {{ suggestion.name }}, {{ suggestion.country }}
+                </li>
+            </ul>
+            <button class="btn btn-outline-warning" type="submit">Search</button>
+        </form>
+    </div>
+</nav>

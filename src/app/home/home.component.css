@@ -1,0 +1,23 @@
+.weather-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+.weather-icon {
+    width: 100px;
+}
+
+.carousel-control-prev {
+    left: -50px;
+}
+
+.carousel-control-next {
+    right: -50px;
+}
+
+.container {
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+    font-family: "Montserrat", sans-serif;
+}
