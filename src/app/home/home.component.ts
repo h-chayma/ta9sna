@@ -57,7 +57,7 @@ export class HomeComponent {
         this.forecast = data.forecast.forecastday;
         this.hourlyForecast = data.forecast.forecastday[0].hour;
         this.setBackground();
-        //this.isLoading = false;
+        this.isLoading = false;
       },
       (error) => {
         console.error('Error fetching weather data:', error);
