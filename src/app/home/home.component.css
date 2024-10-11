@@ -23,6 +23,26 @@
     background-position: center;
     font-family: "Montserrat", sans-serif;
 }
+
 .main-body {
     flex: 1;
+}
+
+.loading-spinner {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.loading-spinner img {
+    width: 100px;
+    height: 100px;
+}
+
+.loading-text {
+    margin-top: 10px;
+    font-size: 18px;
+    font-weight: bold;
 }

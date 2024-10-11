@@ -1,97 +1,108 @@
-<div class="container d-flex flex-column mt-4">
-    <div class="main-body">
-        <div class="row">
-            <div class="col-lg-4">
-                <div class="card weather-card text-white shadow-lg p-3 mb-3">
-                    <div class="card-body">
-                        <h4 class="text-warning">{{ greetingMessage }}</h4>
-                        <p>{{ currentDate }}</p>
-                        <p class="mb-0">{{ currentTime }}</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-8">
-                <div class="card weather-card text-white shadow-lg p-3 mb-3" style="z-index: -1;">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <h6><span class="text-warning"><i class="fas fa-map-marker-alt"></i></span> {{
-                                location?.name }}, {{
-                                location?.country }}</h6>
-                        </div>
-                        <h3><b>{{ currentDay }}</b></h3>
-                        <div class="d-flex align-items-center mb-2">
-                            <h2 class="display-1">{{ currentWeather?.temp_c }}°C</h2>
-                            <img [src]="'https:' + currentWeather?.condition?.icon" alt="Weather"
-                                class="weather-icon ms-auto" />
-                        </div>
-                        <p class="text-warning">Feels like: {{ currentWeather?.feelslike_c }}°C</p>
-                        <p class="text-warning">MAX: {{ forecast[0]?.day.maxtemp_c }}°C, MIN: {{
-                            forecast[0]?.day.mintemp_c }}°C</p>
-                        <div class="d-flex justify-content-between mt-4">
-                            <div><i class="fas fa-tint"></i> {{ currentWeather?.precip_mm }} mm</div>
-                            <div><i class="fas fa-wind"></i> {{ currentWeather?.wind_kph }} KM/H</div>
-                            <div><i class="fas fa-compass"></i> {{ getFullWindDirection(currentWeather?.wind_dir) }}
-                            </div>
-                            <div><i class="fas fa-thermometer-half"></i> {{ currentWeather?.pressure_mb }} MB</div>
+<div *ngIf="isLoading" class="loading-spinner">
+    <img src="assets/loading-logo.webp" alt="Loading..." />
+    <p class="loading-text text-warning">Loading...</p>
+</div>
+
+<div *ngIf="!isLoading">
+    <div class="container d-flex flex-column mt-4">
+        <div class="main-body">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="card weather-card text-white shadow-lg p-3 mb-3">
+                        <div class="card-body">
+                            <h4 class="text-warning">{{ greetingMessage }}</h4>
+                            <p>{{ currentDate }}</p>
+                            <p class="mb-0">{{ currentTime }}</p>
                         </div>
                     </div>
                 </div>
-                <div class="card weather-card text-white shadow-lg p-3 mb-3">
-                    <div class="card-body">
-                        <h5 class="card-title">Hourly Forecast</h5>
-                        <div id="hourlyCarousel" class="carousel slide" data-bs-ride="carousel">
-                            <div class="carousel-inner">
-                                <div class="carousel-item active">
-                                    <div class="row">
-                                        <div class="col text-center" *ngFor="let hour of hourlyForecast.slice(0, 6)">
-                                            <img [src]="'https:' + hour.condition.icon" alt="Weather"
-                                                style="width: 50px;">
-                                            <p>{{ hour.time | date: 'HH:mm' }}</p>
-                                            <p>{{ hour.temp_c }}°C</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="carousel-item">
-                                    <div class="row">
-                                        <div class="col text-center" *ngFor="let hour of hourlyForecast.slice(6, 12)">
-                                            <img [src]="'https:' + hour.condition.icon" alt="Weather"
-                                                style="width: 50px;">
-                                            <p>{{ hour.time | date: 'HH:mm' }}</p>
-                                            <p>{{ hour.temp_c }}°C</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="carousel-item">
-                                    <div class="row">
-                                        <div class="col text-center" *ngFor="let hour of hourlyForecast.slice(12, 18)">
-                                            <img [src]="'https:' + hour.condition.icon" alt="Weather"
-                                                style="width: 50px;">
-                                            <p>{{ hour.time | date: 'HH:mm' }}</p>
-                                            <p>{{ hour.temp_c }}°C</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="carousel-item">
-                                    <div class="row">
-                                        <div class="col text-center" *ngFor="let hour of hourlyForecast.slice(18, 24)">
-                                            <img [src]="'https:' + hour.condition.icon" alt="Weather"
-                                                style="width: 50px;">
-                                            <p>{{ hour.time | date: 'HH:mm' }}</p>
-                                            <p>{{ hour.temp_c }}°C</p>
-                                        </div>
-                                    </div>
-                                </div>
+                <div class="col-lg-8">
+                    <div class="card weather-card text-white shadow-lg p-3 mb-3" style="z-index: -1;">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h6><span class="text-warning"><i class="fas fa-map-marker-alt"></i></span> {{
+                                    location?.name }}, {{
+                                    location?.country }}</h6>
                             </div>
-                            <button class="carousel-control-prev" type="button" data-bs-target="#hourlyCarousel"
-                                data-bs-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Previous</span>
-                            </button>
-                            <button class="carousel-control-next" type="button" data-bs-target="#hourlyCarousel"
-                                data-bs-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Next</span>
-                            </button>
+                            <h3><b>{{ currentDay }}</b></h3>
+                            <div class="d-flex align-items-center mb-2">
+                                <h2 class="display-1">{{ currentWeather?.temp_c }}°C</h2>
+                                <img [src]="'https:' + currentWeather?.condition?.icon" alt="Weather"
+                                    class="weather-icon ms-auto" />
+                            </div>
+                            <p class="text-warning">Feels like: {{ currentWeather?.feelslike_c }}°C</p>
+                            <p class="text-warning">MAX: {{ forecast[0]?.day.maxtemp_c }}°C, MIN: {{
+                                forecast[0]?.day.mintemp_c }}°C</p>
+                            <div class="d-flex justify-content-between mt-4">
+                                <div><i class="fas fa-tint"></i> {{ currentWeather?.precip_mm }} mm</div>
+                                <div><i class="fas fa-wind"></i> {{ currentWeather?.wind_kph }} KM/H</div>
+                                <div><i class="fas fa-compass"></i> {{ getFullWindDirection(currentWeather?.wind_dir) }}
+                                </div>
+                                <div><i class="fas fa-thermometer-half"></i> {{ currentWeather?.pressure_mb }} MB</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card weather-card text-white shadow-lg p-3 mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title">Hourly Forecast</h5>
+                            <div id="hourlyCarousel" class="carousel slide" data-bs-ride="carousel">
+                                <div class="carousel-inner">
+                                    <div class="carousel-item active">
+                                        <div class="row">
+                                            <div class="col text-center"
+                                                *ngFor="let hour of hourlyForecast.slice(0, 6)">
+                                                <img [src]="'https:' + hour.condition.icon" alt="Weather"
+                                                    style="width: 50px;">
+                                                <p>{{ hour.time | date: 'HH:mm' }}</p>
+                                                <p>{{ hour.temp_c }}°C</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="carousel-item">
+                                        <div class="row">
+                                            <div class="col text-center"
+                                                *ngFor="let hour of hourlyForecast.slice(6, 12)">
+                                                <img [src]="'https:' + hour.condition.icon" alt="Weather"
+                                                    style="width: 50px;">
+                                                <p>{{ hour.time | date: 'HH:mm' }}</p>
+                                                <p>{{ hour.temp_c }}°C</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="carousel-item">
+                                        <div class="row">
+                                            <div class="col text-center"
+                                                *ngFor="let hour of hourlyForecast.slice(12, 18)">
+                                                <img [src]="'https:' + hour.condition.icon" alt="Weather"
+                                                    style="width: 50px;">
+                                                <p>{{ hour.time | date: 'HH:mm' }}</p>
+                                                <p>{{ hour.temp_c }}°C</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="carousel-item">
+                                        <div class="row">
+                                            <div class="col text-center"
+                                                *ngFor="let hour of hourlyForecast.slice(18, 24)">
+                                                <img [src]="'https:' + hour.condition.icon" alt="Weather"
+                                                    style="width: 50px;">
+                                                <p>{{ hour.time | date: 'HH:mm' }}</p>
+                                                <p>{{ hour.temp_c }}°C</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="carousel-control-prev" type="button" data-bs-target="#hourlyCarousel"
+                                    data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#hourlyCarousel"
+                                    data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>

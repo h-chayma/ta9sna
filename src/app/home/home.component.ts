@@ -16,6 +16,7 @@ export class HomeComponent {
   currentDay: string = '';
   currentTime: string = '';
   greetingMessage: string = '';
+  isLoading = true;
 
   constructor(private weatherService: WeatherService) { }
 
@@ -56,6 +57,7 @@ export class HomeComponent {
         this.forecast = data.forecast.forecastday;
         this.hourlyForecast = data.forecast.forecastday[0].hour;
         this.setBackground();
+        //this.isLoading = false;
       },
       (error) => {
         console.error('Error fetching weather data:', error);
@@ -66,9 +68,9 @@ export class HomeComponent {
   setBackground(): void {
     const isDay = this.currentWeather?.is_day;
     if (isDay) {
-      document.body.style.backgroundImage = "url('assets/day_sky.jpg')";
+      document.body.style.backgroundImage = "url('assets/bg/day_sky.jpg')";
     } else {
-      document.body.style.backgroundImage = "url('assets/night_sky.jpg')";
+      document.body.style.backgroundImage = "url('assets/bg/night_sky.jpg')";
     }
   }
 
