@@ -1,5 +1,7 @@
 body {
+  background-color: #1e1e2f;
   background-size: cover;
   background-position: center;
+  transition: background-image 0.5s ease-in-out;
   font-family: "Montserrat", sans-serif;
 }

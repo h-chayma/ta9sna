@@ -67,13 +67,14 @@ export class HomeComponent {
 
   setBackground(): void {
     const isDay = this.currentWeather?.is_day;
-    if (isDay) {
-      document.body.style.backgroundImage = "url('assets/bg/day_sky.jpg')";
-    } else {
-      document.body.style.backgroundImage = "url('assets/bg/night_sky.jpg')";
-    }
-  }
+    const imageUrl = isDay ? 'assets/bg/day_sky.jpg' : 'assets/bg/night_sky.jpg';
 
+    const img = new Image();
+    img.src = imageUrl;
+    img.onload = () => {
+      document.body.style.backgroundImage = `url('${imageUrl}')`;
+    };
+  }
 
   onCitySearched(newCity: string): void {
     this.city = newCity;
